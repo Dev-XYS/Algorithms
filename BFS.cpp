@@ -50,7 +50,7 @@ void BFS()
 	{
 		int u = dequeue();
 		
-		for (int cur = V[u].first_edge; cur != 0; cur++)
+		for (int cur = V[u].first_edge; cur != 0; cur = E[cur].next)
 		{
 			if (V[E[cur].endp].vis == false)
 			{
@@ -73,6 +73,8 @@ int main()
 		
 		add_edge(u, v);
 	}
+	
+	enqueue(1);
 	
 	BFS();
 	
