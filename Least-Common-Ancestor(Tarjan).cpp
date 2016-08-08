@@ -83,8 +83,6 @@ void merge(int x, int y)
 
 void DFS(int u, int prev)
 {
-	fa[u] = u;
-	size[u] = 1;
 	ancestor[get_root(u)] = u;
 	
 	for (int cur = V[u].first_edge; cur != 0; cur = E[cur].next)
