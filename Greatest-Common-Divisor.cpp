@@ -4,7 +4,7 @@ using namespace std;
 
 int gcd(int x, int y)
 {
-	return x % y == 0 ? y : gcd(y, x % y);
+	return y == 0 ? x : gcd(y, x % y);
 }
 
 int main()
