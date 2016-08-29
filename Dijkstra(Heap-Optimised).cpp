@@ -2,8 +2,8 @@
 
 #define INF 1000000000
 
-#define VERTEX_COUNT 100000
-#define EDGE_COUNT 100000
+#define VERTEX_COUNT 100010
+#define EDGE_COUNT 1000010
 
 using namespace std;
 
@@ -86,13 +86,15 @@ void heap_sink(int i)
 void heap_float(int i)
 {
 	int p = i >> 1;
-	while (i > 1 && V[H[i]].dis < V[H[p]].dis)
+	while (p > 1 && V[H[i]].dis < V[H[p]].dis)
 	{
 		pos[H[i]] = p;
 		pos[H[p]] = i;
 		int temp = H[i];
 		H[i] = H[p];
 		H[p] = temp;
+		i = p;
+		p = i >> 1;
 	}
 }
 
@@ -100,6 +102,7 @@ int extract_min()
 {
 	int res = H[1];
 	H[1] = H[heapsize--];
+	pos[H[1]] = 1;
 	heap_sink(1);
 	return res;
 }
