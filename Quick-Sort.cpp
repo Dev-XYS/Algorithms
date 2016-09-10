@@ -7,7 +7,7 @@ using namespace std;
 
 int d[MAX_ELEMENT_COUNT];
 
-int qsort(int l, int r)
+void qsort(int l, int r)
 {
 	if (l < r)
 	{
