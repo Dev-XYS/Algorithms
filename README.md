@@ -25,5 +25,6 @@
 | 快速排序的随机化版本 | Quick-Sort(Randomized) |
 | 快速排序 | Quick-Sort |
 | 线段树维护区间最大值 | Segment-Tree(Maximum) |
+| 线段树维护区间和值 | Segment-Tree(Sum) |
 | ST表 | Sparse-Table |
 | 栈的基本操作 | Stack |
