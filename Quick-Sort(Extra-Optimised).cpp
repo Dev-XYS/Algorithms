@@ -14,15 +14,21 @@ void qsort(int l, int r)
 {
 	if (l < r)
 	{
-		int x = d[rand() % (r - l + 1) + l];
+		int _rand = rand() % (r - l + 1) + l;
+		
+		int temp = d[_rand];
+		d[_rand] = d[r];
+		d[r] = temp;
+		
+		int x = d[r];
 		int j = l - 1;
 		
-		for (int i = l; i <= r; i++)
+		for (int i = l; i < r; i++)
 		{
 			if (d[i] < x)
 			{
 				j++;
-				int temp = d[i];
+				temp = d[i];
 				d[i] = d[j];
 				d[j] = temp;
 			}
@@ -31,12 +37,16 @@ void qsort(int l, int r)
 				if ((flag++ & 1) == 0)
 				{
 					j++;
-					int temp = d[i];
+					temp = d[i];
 					d[i] = d[j];
 					d[j] = temp;
 				}
 			}
 		}
+		j++;
+		temp = d[r];
+		d[r] = d[j];
+		d[j] = temp;
 		
 		qsort(l, j - 1);
 		qsort(j + 1, r);
@@ -45,15 +55,20 @@ void qsort(int l, int r)
 
 int main()
 {
-	for (int i = 0; i < ELEMENT_COUNT; i++)
+	int n;
+	scanf("%d", &n);
+	
+	for (int i = 0; i < n; i++)
 	{
-		// All elements are the same.
-		d[i] = 0;
+		scanf("%d", &d[i]);
 	}
 	
-	// You can compare the following two functions.
-	qsort(0, ELEMENT_COUNT - 1);
-	sort(d, d + ELEMENT_COUNT);
+	qsort(0, n - 1);
+	
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", d[i]);
+	}
 	
 	return 0;
 }
