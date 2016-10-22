@@ -5,8 +5,7 @@
 
 using namespace std;
 
-int H[MAX_HEAP_SIZE];
-int heapsize;
+int n, H[MAX_HEAP_SIZE], heapsize;
 
 void min_heapify(int i)
 {
@@ -14,11 +13,11 @@ void min_heapify(int i)
 	int lch = i << 1;
 	int rch = lch + 1;
 	
-	if (lch >= heapsize && H[smallest] > H[lch])
+	if (lch <= heapsize && H[smallest] > H[lch])
 	{
 		smallest = lch;
 	}
-	if (rch >= heapsize && H[smallest] > H[rch])
+	if (rch <= heapsize && H[smallest] > H[rch])
 	{
 		smallest = rch;
 	}
@@ -58,15 +57,14 @@ void insert(int x)
 
 int main()
 {
-	for (int i = 0; i < 15; i++)
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
 	{
-		insert(rand());
+		int x;
+		scanf("%d", &x);
+		insert(x);
 	}
-	
-	for (int i = 1; i <= 15; i++)
-	{
-		printf("%d : %d\n", i, H[i]);
-	}
+	// Add more actions here.
 	
 	return 0;
 }
