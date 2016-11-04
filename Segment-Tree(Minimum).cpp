@@ -67,7 +67,7 @@ int query(int l, int r, int k)
 	}
 	else
 	{
-		int mid = (T[k].l + T[k].r) >> 1;
+		int mid = (T[k].l + T[k].r) >> 1, res;
 		T[k << 1].lazy += T[k].lazy;
 		T[k << 1].min += T[k].lazy;
 		T[(k << 1) + 1].lazy += T[k].lazy;
@@ -75,16 +75,18 @@ int query(int l, int r, int k)
 		T[k].lazy = 0;
 		if (r <= mid)
 		{
-			return query(l, r, k << 1);
+			res = query(l, r, k << 1);
 		}
 		else if (l > mid)
 		{
-			return query(l, r, (k << 1) + 1);
+			res = query(l, r, (k << 1) + 1);
 		}
 		else
 		{
-			return min(query(l, mid, k << 1), query(mid + 1, r, (k << 1) + 1));
+			res = min(query(l, mid, k << 1), query(mid + 1, r, (k << 1) + 1));
 		}
+		T[k].min = min(T[k << 1].min, T[(k << 1) + 1].min);
+		return res;
 	}
 }
 
