@@ -9,26 +9,24 @@ int pow10[] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
 
 void radix_sort()
 {
-	static int c[10], t[11], _d[ELEMENT_COUNT];
+	static int c[10], _d[ELEMENT_COUNT];
 	for (int k = 0; k < 8; k++)
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			c[i] = t[i] = 0;
+			c[i] = 0;
 		}
 		for (int i = 0; i < n; i++)
 		{
-			c[d[i] / pow10[k] % 10 + 1]++;
+			c[d[i] / pow10[k] % 10]++;
 		}
 		for (int i = 1; i < 10; i++)
 		{
 			c[i] += c[i - 1];
 		}
-		for (int i = 0; i < n; i++)
+		for (int i = n - 1; i >= 0; i--)
 		{
-			int w = d[i] / pow10[k] % 10;
-			_d[c[w] + t[w]] = d[i];
-			t[w]++;
+			_d[--c[d[i] / pow10[k] % 10]] = d[i];
 		}
 		for (int i = 0; i < n; i++)
 		{
@@ -47,7 +45,7 @@ int main()
 	radix_sort();
 	for (int i = 0; i < n; i++)
 	{
-		printf("%d\n", d[i]);
+		printf("%d ", d[i]);
 	}
 	return 0;
 }
