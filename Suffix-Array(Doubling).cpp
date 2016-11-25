@@ -14,11 +14,6 @@ int l;
 char s[STRING_LENGTH];
 int rank[STRING_LENGTH * 2], sa[STRING_LENGTH];
 
-inline bool operator == (const sortinfo &x, const sortinfo &y)
-{
-	return x.x == y.x && x.y == y.y;
-}
-
 void radix_sort(sortinfo *d)
 {
 	static sortinfo _d[STRING_LENGTH], res[STRING_LENGTH];
@@ -88,7 +83,11 @@ void init_rank()
 		rank[d[0].ord] = 1;
 		for (int i = 1; i < l; i++)
 		{
-			rank[d[i].ord] = (d[i] == d[i - 1] ? x : ++x);
+			rank[d[i].ord] = (d[i].x == d[i - 1].x && d[i].y == d[i - 1].y ? x : ++x);
+		}
+		if (x == l)
+		{
+			break;
 		}
 	}
 }
