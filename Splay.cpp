@@ -11,11 +11,6 @@ struct node
 	node(int _key = 0, int _value = 0) : key(_key), value(_value) { ch[0] = ch[1] = NIL; }
 }*root;
 
-void init_splay()
-{
-	root = new node();
-}
-
 void rotate(node *&u, int dir)
 {
 	node *o = u->ch[dir];
@@ -24,6 +19,15 @@ void rotate(node *&u, int dir)
 	u = o;
 }
 
+inline int compare(node *u, int key)
+{
+	if (key == u->key)
+	{
+		return -1;
+	}
+	return key < u->key ? 0 : 1;
+}	
+
 void insert(node *&u, int key, int value)
 {
 	if (u == NIL)
@@ -31,132 +35,73 @@ void insert(node *&u, int key, int value)
 		u = new node(key, value);
 		return;
 	}
-	if (key < u->key)
+	int k0 = compare(u, key);
+	if (k0 == -1)
 	{
-		if (u->ch[0] == NIL)
+		return;
+	}
+	if (u->ch[k0] == NIL)
+	{
+		u->ch[k0] = new node(key, value);
+	}
+	else
+	{
+		int k1 = compare(u->ch[k0], key);
+		if (k1 == -1)
 		{
-			u->ch[0] = new node(key, value);
+			return;
+		}
+		insert(u->ch[k0]->ch[k1], key, value);
+		if (k0 == k1)
+		{
+			rotate(u, k0);
 		}
 		else
 		{
-			if (key < u->ch[0]->key)
-			{
-				insert(u->ch[0]->ch[0], key, value);
-				rotate(u->ch[0], 0);
-			}
-			else if (key > u->ch[0]->key)
-			{
-				insert(u->ch[0]->ch[1], key, value);
-				rotate(u->ch[0], 1);
-			}
+			rotate(u->ch[k0], k1);
 		}
-		rotate(u, 0);
 	}
-	else if (key > u->key)
-	{
-		if (u->ch[1] == NIL)
-		{
-			u->ch[1] = new node(key, value);
-		}
-		else
-		{
-			if (key < u->ch[1]->key)
-			{
-				insert(u->ch[1]->ch[0], key, value);
-				rotate(u->ch[1], 0);
-			}
-			else if (key > u->ch[1]->key)
-			{
-				insert(u->ch[1]->ch[1], key, value);
-				rotate(u->ch[1], 1);
-			}
-		}
-		rotate(u, 1);
-	}
+	rotate(u, k0);
 }
 
 int find(node *&u, int key)
 {
-	int res;
 	if (u == NIL)
 	{
 		return -1;
 	}
-	if (u->key == key)
+	int k0 = compare(u, key);
+	if (k0 == -1)
 	{
-		res = u->value;
+		return u->value;
 	}
-	if (key < u->key)
+	if (u->ch[k0] == NIL)
 	{
-		if (u->ch[0] == NIL)
+		return -1;
+	}
+	else
+	{
+		int k1 = compare(u->ch[k0], key), res;
+		if (k1 == -1)
 		{
-			return -1;
+			res = u->ch[k0]->value;
+			goto END;
 		}
-		if (u->ch[0]->key == key)
+		res = find(u->ch[k0]->ch[k1], key);
+		if (u->ch[k0]->ch[k1] != NIL)
 		{
-			res = u->ch[0]->value;
-		}
-		if (key < u->ch[0]->key)
-		{
-			res = find(u->ch[0]->ch[0], key);
-			if (u->ch[0]->ch[0] != NIL)
+			if (k0 == k1)
 			{
-				rotate(u->ch[0], 0);
+				rotate(u, k0);
+			}
+			else
+			{
+				rotate(u->ch[k0], k1);
 			}
 		}
-		else if (key > u->ch[0]->key);
-		{
-			res = find(u->ch[0]->ch[1], key);
-			if (u->ch[0]->ch[1] != NIL)
-			{
-				rotate(u->ch[0], 1);
-			}
-		}
-		rotate(u, 0);
-	}
-	else if (key > u->key)
-	{
-		if (u->ch[1] == NIL)
-		{
-			return -1;
-		}
-		if (u->ch[1]->key == key)
-		{
-			res = u->ch[1]->value;
-		}
-		if (key < u->ch[1]->key)
-		{
-			res = find(u->ch[1]->ch[0], key);
-			if (u->ch[1]->ch[0] != NIL)
-			{
-				rotate(u->ch[1], 0);
-			}
-		}
-		else if (key > u->ch[1]->key)
-		{
-			res = find(u->ch[1]->ch[1], key);
-			if (u->ch[1]->ch[1] != NIL)
-			{
-				rotate(u->ch[1], 1);
-			}
-		}
-		rotate(u, 1);
-	}
-	return res;
-}
-
-void DFS(node *u)
-{
-	printf("node : key = %d, value = %d\n", u->key, u->value);
-	if (u->ch[0] != NIL)
-	{
-		printf("left child:\n");
-		DFS(u->ch[0]);
-	}
-	if (u->ch[1] != NIL)
-	{
-		printf("right child:\n");
-		DFS(u->ch[1]);
+	END:
+		rotate(u, k0);
+		return res;
 	}
 }
 
@@ -175,10 +120,6 @@ int main()
 		{
 			scanf("%d", &key);
 			printf("%d\n", find(root, key));
-		}
-		else if (in == 4)
-		{
-			DFS(root);
 		}
 		else if (in == 0)
 		{
