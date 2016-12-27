@@ -3,6 +3,8 @@
 
 using namespace std;
 
+int _global_length_;
+
 class lint
 {
 private:
@@ -14,7 +16,7 @@ private:
 	lint mul1(int x, int offset);
 
 public:
-	lint(int len);
+	lint(int len = _global_length_);
 	void read();
 	void write();
 	lint operator + (lint x);
