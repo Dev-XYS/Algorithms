@@ -1,34 +1,38 @@
 #include <cstdio>
-#include <cstring>
 
-#define MAX 100
+#define MAX_ELEMENT 1000000
 
 using namespace std;
 
-bool isprime[MAX + 1];
-int prime[MAX], cnt;
+int prime[MAX_ELEMENT], pc, div[MAX_ELEMENT];
+
+void sieve(int n)
+{
+	for (int i = 2; i <= n; i++)
+	{
+		if (div[i] == 0)
+		{
+			prime[pc++] = i;
+			div[i] = i;
+		}
+		for (int j = 0; j < pc; j++)
+		{
+			if (i * prime[j] > n) break;
+			div[i * prime[j]] = prime[j];
+			if (div[i] == prime[j]) break;
+		}
+	}
+}
 
 int main()
 {
-	memset(isprime, true, sizeof(isprime));
-	for (int i = 2; i <= MAX; i++)
+	int n;
+	scanf("%d", &n);
+	sieve(n);
+	for (int i = 0; i < pc; i++)
 	{
-		if (isprime[i] == true)
-		{
-			prime[cnt++] = i;
-		}
-		for (int j = 0; j < cnt && i * prime[j] <= MAX; j++)
-		{
-			isprime[i * prime[j]] = false;
-			if (i % prime[j] == 0)
-			{
-				break;
-			}
-		}
+		printf("%d ", prime[i]);
 	}
-	for (int i = 0; i < cnt; i++)
-	{
-		printf("%d\n", prime[i]);
-	}
+	printf("\n");
 	return 0;
 }
