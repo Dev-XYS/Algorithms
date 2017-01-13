@@ -20,7 +20,7 @@ complex operator - (const complex &x, const complex &y)
 
 complex operator * (const complex &x, const complex &y)
 {
-	return complex(x.re * y.re - x.im * y.im, x.re * y.re + x.im * y.im);
+	return complex(x.re * y.re - x.im * y.im, x.re * y.im + x.im * y.re);
 }
 
 complex operator / (const complex &x, const complex &y)
