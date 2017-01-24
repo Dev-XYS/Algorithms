@@ -44,14 +44,14 @@ void insert(int x)
 	H[++heapsize] = x;
 	
 	int ch = heapsize, p = heapsize >> 1;
-	while (H[p] > H[ch] && p > 1)
+	while (H[p] > H[ch] && p >= 1)
 	{
 		int temp = H[p];
 		H[p] = H[ch];
 		H[ch] = temp;
 		
 		ch = p;
-		p = ch >> 1;
+		p >>= 1;
 	}
 }
 
