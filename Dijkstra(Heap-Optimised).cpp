@@ -86,7 +86,7 @@ void heap_sink(int i)
 void heap_float(int i)
 {
 	int p = i >> 1;
-	while (p > 1 && V[H[i]].dis < V[H[p]].dis)
+	while (p >= 1 && V[H[i]].dis < V[H[p]].dis)
 	{
 		pos[H[i]] = p;
 		pos[H[p]] = i;
