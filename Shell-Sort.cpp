@@ -37,5 +37,6 @@ int main()
 	{
 		printf("%d ", d[i]);
 	}
+	printf("\n");
 	return 0;
 }
