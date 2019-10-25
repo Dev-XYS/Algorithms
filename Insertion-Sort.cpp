@@ -10,13 +10,13 @@ void insertion_sort()
 {
 	for (int i = 1; i < n; i++)
 	{
-		for (int j = i - 1; j >= 0; j--)
+		for (int j = i; j > 0; j--)
 		{
-			if (d[j] > d[j + 1])
+			if (d[j] < d[j - 1])
 			{
 				int temp = d[j];
-				d[j] = d[j + 1];
-				d[j + 1] = temp;
+				d[j] = d[j - 1];
+				d[j - 1] = temp;
 			}
 			else
 			{
